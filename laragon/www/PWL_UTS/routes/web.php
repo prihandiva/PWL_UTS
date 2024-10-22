@@ -11,6 +11,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\StokController;
 
 
@@ -182,6 +183,23 @@ Route::group(['prefix' => 'stok'], function () {
         Route::post('/import_ajax', [StokController::class, 'import_ajax']);
         Route::get('/export_excel', [BarangController::class, 'export_excel']);
         Route::get('/export_pdf', [BarangController::class, 'export_pdf']);
+    });
+    Route::middleware(['authorize:ADM,MNG,STF'])->group(function(){
+        Route::get('/penjualan', [PenjualanController::class, 'index']);  // menampilkan halaman penjualan
+        Route::post('/penjualan/list', [PenjualanController::class, 'list'] );    //menampilkan data penjualan dalam bentuk json datatables
+        Route::get('/penjualan/create_ajax', [PenjualanController::class, 'create_ajax']); //Menampilkan halaman form tambah penjualan Ajax
+        Route::post('/penjualan/ajax', [PenjualanController::class, 'store_ajax']); // Menyimpan data penjualan baru Ajax 
+        Route::get('/penjualan/{id}', [PenjualanController::class, 'show']);       //menampilkan detai penjualan
+        Route::get('/penjualan/{id}/edit_ajax', [PenjualanController::class,'edit_ajax']); //menampilkan halaman form edit penjualan ajax
+        Route::put('/penjualan/{id}/update_ajax', [PenjualanController::class,'update_ajax']);   //menyimpan halaman form edit penjualan ajax
+        Route::get('/penjualan/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']); //tampil form confirm delete penjualan ajax
+        Route::delete('/penjualan/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);  //hapus data penjualan
+        Route::delete('/penjualan/{id}', [PenjualanController::class, 'destroy']);     //mengahpus data penjualan
+        Route::get('/penjualan/import', [PenjualanController::class, 'import']); //ajax form upolad
+        Route::post('/penjualan/import_ajax', [PenjualanController::class, 'import_ajax']); //ajax import exvel)
+        Route::get('/penjualan/export_excel', [PenjualanController::class, 'export_excel']);  //export excel
+        Route::get('/penjualan/export_pdf', [PenjualanController::class, 'export_pdf']); //export pdf
+    
     });
 //logout
 use Illuminate\Support\Facades\Auth;

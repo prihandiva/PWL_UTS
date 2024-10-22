@@ -299,7 +299,7 @@ class UserController extends Controller
 
                     $filename = time() . '.' . $extension;
 
-                    $path = public_path('image/profile/');
+                    $path = public_path('images/profile/');
                     $file->move($path, $filename);
                     $check->user_foto = $path . $filename;
                 }

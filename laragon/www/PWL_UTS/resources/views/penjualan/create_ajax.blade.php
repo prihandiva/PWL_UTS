@@ -1,128 +1,145 @@
-<form action="{{ url('/stok/ajax') }}" method="POST" id="form-tambah">
+<form id="form-tambah" action="{{ url('/penjualan/ajax') }}" method="POST" enctype="multipart/form-data">
     @csrf
+
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Stok</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Transaksi Penjualan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
             </div>
+
             <div class="modal-body">
+                <!-- Input Nama Pembeli -->
                 <div class="form-group">
-                    <label>Tanggal Stok</label>
-                    <input type="date" name="stok_tanggal" id="stok_tanggal" class="form-control" required>
-                    <small id="error-stok_tanggal" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Jumlah Stok</label>
-                    <input type="number" name="stok_jumlah" id="stok_jumlah" class="form-control" required min="0>
-                    <small id="error-stok_jumlah" class="error-text form-text text-danger"></small>
-                </div>
-                <div class="form-group">
-                    <label>Barang</label>
-                    <select name="fk_barang_id" id="fk_barang_id" class="form-control" required>
-                        <option value="">- Pilih Barang -</option>
-                        @foreach ($barang as $b)
-                            <option value="{{ $b->barang_id }}">{{ $b->barang_nama }}</option>
-                        @endforeach
-                    </select>
-                    <small id="error-fk_barang_id" class="error-text form-text text-danger"></small>
+                    <label class="control-label col-form-label" for="pembeli">Nama Pembeli</label>
+                    <input type="text" name="pembeli" class="form-control" id="pembeli" required>
                 </div>
 
-                <!-- Input untuk Supplier -->
+                <!-- Input Tanggal Penjualan -->
                 <div class="form-group">
-                    <label>Supplier</label>
-                    <select name="fk_supplier_id" id="fk_supplier_id" class="form-control" required>
-                        <option value="">- Pilih Supplier -</option>
-                        @foreach ($supplier as $s)
-                            <option value="{{ $s->supplier_id }}">{{ $s->supplier_nama }}</option>
-                        @endforeach
-                    </select>
-                    <small id="error-fk_supplier_id" class="error-text form-text text-danger"></small>
+                    <label class="control-label col-form-label" for="penjualan_tanggal">Tanggal Penjualan</label>
+                    <input type="datetime-local" name="penjualan_tanggal" class="form-control" id="penjualan_tanggal" required>
                 </div>
 
-                <!-- Input untuk User -->
-                <div class="form-group">
-                    <label>Pengguna</label>
-                    <select name="fk_user_id" id="fk_user_id" class="form-control" required>
-                        <option value="">- Pilih Pengguna -</option>
-                        @foreach ($users as $u)
-                            <option value="{{ $u->id }}">{{ $u->nama }}</option>
-                        @endforeach
-                    </select>
-                    <small id="error-fk_user_id" class="error-text form-text text-danger"></small>
+                <!-- Section for Barang Detail -->
+                <h3>Detail Barang</h3>
+                <div id="barang-section">
+                    <!-- Baris pertama barang -->
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label class="control-label col-form-label" for="barang_id">Barang</label>
+                            <select name="barangs[0][barang_id]" class="form-control" required>
+                                <option value="">- Pilih Barang -</option>
+                                @foreach ($barang as $item)
+                                    <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label col-form-label" for="jumlah">Jumlah</label>
+                            <input type="number" name="barangs[0][jumlah]" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="control-label col-form-label" for="harga">Harga</label>
+                            <input type="number" name="barangs[0][harga]" class="form-control" required>
+                        </div>
+                    </div>
                 </div>
-
             </div>
+
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-warning">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <!-- Tombol Tambah Barang -->
+                <button type="button" id="add-barang" class="btn btn-info">Tambah Barang</button>
+
+                <!-- Tombol Simpan -->
+                <button type="submit" class="btn btn-success">Simpan</button>
             </div>
         </div>
     </div>
 </form>
 
-<script>
-    $(document).ready(function() {
-        $("#form-tambah").validate({
-            rules: {
-                fk_supplier_id: {
-                    required: true
-                },
-                fk_barang_id: {
-                    required: true
-                },
-                fk_user_id: {
-                    required: true
-                },
-                stok_jumlah: {
-                    required: true,
-                    number: true,
-                    min: 0 // Pastikan jumlah stok tidak negatif
-                },
-                stok_tanggal: {
-                    required: true,
-                    date: true
-                },
-            },
+@push('scripts')
+    <script>
+        let barangIndex = 1; // Mulai indeks barang dari 1 karena 0 sudah ada di template awal
+
+        // Fungsi untuk menambah baris barang
+        document.getElementById('add-barang').addEventListener('click', function() {
+            let barangSection = document.getElementById('barang-section');
+            let newBarang = `
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label class="control-label col-form-label" for="barang_id">Barang</label>
+                    <select name="barangs[${barangIndex}][barang_id]" class="form-control" required>
+                        <option value="">- Pilih Barang -</option>
+                        @foreach ($barang as $item)
+                            <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label col-form-label" for="jumlah">Jumlah</label>
+                    <input type="number" name="barangs[${barangIndex}][jumlah]" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="control-label col-form-label" for="harga">Harga</label>
+                    <input type="number" name="barangs[${barangIndex}][harga]" class="form-control" required>
+                </div>
+            </div>`;
+            
+            barangSection.insertAdjacentHTML('beforeend', newBarang);
+            barangIndex++; // Tingkatkan indeks barang untuk setiap tambahan barang baru
+        });
+
+
             submitHandler: function(form) {
-                $.ajax({
-                    url: form.action,
-                    type: form.method,
-                    data: $(form).serialize(),
-                    success: function(response) {
-                        if (response.status) {
-                            $('#myModal').modal('hide');
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message
-                            });
-                            dataStok.ajax.reload();
-                        } else {
-                            $('.error-text').text('');
-                            $.each(response.msgField, function(prefix, val) {
-                                $('#error-' + prefix).text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // Tangani error dari server
+            var formData = new FormData(form); // Gunakan FormData untuk file upload
+
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.status) {
+                        // Menampilkan notifikasi berhasil
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: response.message
+                        }).then(function() {
+                            // Reload halaman atau update data setelah Swal ditutup
+                            if (typeof dataTransaksi !== 'undefined') {
+                                dataTransaksi.ajax.reload(); // Reload data table jika ada
+                            } else {
+                                location.reload(); // Reload halaman jika tidak ada dataTransaksi
+                            }
+                        });
+                    } else {
+                        // Menampilkan error dari validasi field
+                        $('.error-text').text('');
+                        $.each(response.msgField, function(prefix, val) {
+                            $('#error-' + prefix).text(val[0]);
+                        });
+
                         Swal.fire({
                             icon: 'error',
                             title: 'Terjadi Kesalahan',
-                            text: 'Error: ' + xhr.responseText
+                            text: response.message
                         });
                     }
-                });
-                return false; // Mencegah form dari submit normal
-            },
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan. Silakan coba lagi nanti.'
+                    });
+                }
+            });
+            return false;
+        },
             errorElement: 'span',
             errorPlacement: function(error, element) {
                 error.addClass('invalid-feedback');
@@ -134,6 +151,5 @@
             unhighlight: function(element, errorClass, validClass) {
                 $(element).removeClass('is-invalid');
             }
-        });
-    });
-</script>
+    </script>
+@endpush
