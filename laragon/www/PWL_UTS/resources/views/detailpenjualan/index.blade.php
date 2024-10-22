@@ -2,12 +2,12 @@
 @section('content')
     <div class="card card-outline card-primary" style="margin-left: 10px; margin-right:10px">
         <div class="card-header">
-            <h3 class="card-title">Data Penjualan </h3>
+            <h3 class="card-title">Stok Barang</h3>
             <div class="card-tools">
-                <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info mt-1">Import Penjualan (Excel)</button>
-                <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-primary mt-1"><i class="fa fa-file-excel mt-1"></i> Export Penjualan (Excel)</a>
-                <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-warning mt-1"><i class="fa fa-file-pdf mt-1"></i> Export Penjualan (PDF)</a>
-                <button onclick="modalAction('{{ url('/penjualan/create_ajax') }}')" class="btn btn-success mt-1">Tambah Data</button>
+                <button onclick="modalAction('{{ url('/detail/import') }}')" class="btn btn-info mt-1">Import Detail (Excel)</button>
+                <a href="{{ url('/detail/export_excel') }}" class="btn btn-primary mt-1"><i class="fa fa-file-excel mt-1"></i> Export Detail (Excel)</a>
+                <a href="{{ url('/detail/export_pdf') }}" class="btn btn-warning mt-1"><i class="fa fa-file-pdf mt-1"></i> Export Detail (PDF)</a>
+                <button onclick="modalAction('{{ url('/detail/create_ajax') }}')" class="btn btn-success mt-1">Tambah Data</button>
             </div>
         </div>
         <div class="card-body">
@@ -18,13 +18,13 @@
                         <div class="form-group form-group-sm row text-sm mb-0">
                             <label class="col-1 control-label col-form-label">Filter:</label>
                             <div class="col-3">
-                                <select class="form-control" id="user_id" name="user_id" required>
+                                <select class="form-control" id="barang_id" name="barang_id" required>
                                     <option value="">- Semua -</option>
-                                    @foreach ($user as $item)
-                                        <option value="{{ $item->user_id }}">{{ $item->nama }}</option>
+                                    @foreach ($barang as $item)
+                                        <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
                                     @endforeach
                                 </select>
-                                <small class="form-text text-muted">User</small>
+                                <small class="form-text text-muted">Pilih Barang</small>
                             </div>
                         </div>
                     </div>
@@ -36,14 +36,14 @@
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            <table class="table table-bordered table-sm table-striped table-hover" id="table-penjualan">
+            <table class="table table-bordered table-sm table-striped table-hover" id="table-detail">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Nama Staff</th>
-                        <th>Nama Pembeli</th>
-                        <th>Penjualan Kode</th>
-                        <th>Tanggal Penjualan</th>
+                        <th>Kode Penjualan</th>
+                        <th>Barang</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -62,67 +62,69 @@
             });
         }
 
-        var tablePenjualan;
+        var tableDetail;
 
         $(document).ready(function() {
-            tableStok = $('#table-penjualan').DataTable({
+            tableDetail = $('#table-detail').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('penjualan/list') }}",
+                    "url": "{{ url('detail/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function(d) {
-                        d.user_id = $('#user_id').val();
+                        d.barang_id = $('#barang_id').val();
                     }
                 },
 
                 columns: [
                 {
-                // nomor urut dari laravel datatable addIndexColumn() data: "DT_RowIndex",
-                data: "DT_RowIndex",
-                className: "text-center",
-                orderable: false,
-                searchable: false
+                    data: "DT_RowIndex",
+                    className: "text-center",
+                    orderable: false,
+                    searchable: false
                 },
                 {
-                    data: "user.nama",
+                    data: "penjualan.penjualan_kode",
                     className: "text-center",
                     orderable: true,
                     searchable: true,
                 },
                 {
-                    data: "pembeli",
+                    data: "barang.barang_nama",
                     className: "text-center",
                     orderable: true,
                     searchable: true
-                }, {
-                    data: "penjualan_kode",
+                },
+                {
+                    data: "harga",
                     className: "text-center",
                     orderable: true,
-                    searchable: true
-                }, {
-                    data: "penjualan_tanggal",
+                    searchable: false
+                },
+                {
+                    data: "jumlah",
                     className: "text-center",
                     orderable: true,
-                    searchable: false,
-                }, {
+                    searchable: false
+                },
+                {
                     data: "aksi",
                     className: "text-center",
                     orderable: false,
                     searchable: false
                 }]
             });
-            $('#table-penjualan_filter input').unbind().bind().on('keyup', function(e) {
+
+            $('#table-detail_filter input').unbind().bind().on('keyup', function(e) {
                 if (e.keyCode == 13) { // enter key
-                    tablePenjualan.search(this.value).draw();
+                    tableDetail.search(this.value).draw();
                 }
             });
-            
-            $('#user_id').on('change', function() {
-                tablePenjualan.ajax.reload();
+
+            $('#barang_id').on('change', function() {
+                tableDetail.ajax.reload();
             });
-           
         });
     </script>
-    @endpush
+@endpush

@@ -77,41 +77,40 @@
 <body>
     <table class="border-bottom-header">
         <tr>
-            <td width="15%" class="text-center"><img src="{{ asset('polinema.png') }}"></td>
+            <td width="15%" class="text-center"><img src="{{ asset('logo.png') }}"></td>
             <td width="85%">
-                <span class="text-center d-block font-11 font-bold mb-1">KEMENTERIAN
-                    PENDIDIKAN, KEBUDAYAAN, RISET, DAN TEKNOLOGI</span>
-                <span class="text-center d-block font-13 font-bold mb-1">POLITEKNIK NEGERI
-                    MALANG</span>
-                <span class="text-center d-block font-10">Jl. Soekarno-Hatta No. 9 Malang
-                    65141</span>
-                <span class="text-center d-block font-10">Telepon (0341) 404424 Pes. 101-
-                    105, 0341-404420, Fax. (0341) 404420</span>
-                <span class="text-center d-block font-10">Laman: www.polinema.ac.id</span>
+                <span class="text-center d-block font-11 font-bold mb-1">LAPORAN DATA PENJUALAN</span>
+                <span class="text-center d-block font-13 font-bold mb-1">WEBSS KITCHEN</span>
+                <span class="text-center d-block font-10">Jl. Raya Example No. 123</span>
+                <span class="text-center d-block font-10">Telepon: 021-1234567</span>
             </td>
         </tr>
     </table>
-    <h3 class="text-center">LAPORAN DATA KATEGORI</h4>
-        <table class="border-all">
-            <thead>
+    <h3 class="text-center">LAPORAN DETAIL PENJUALAN</h3>
+    <table class="border-all">
+        <thead>
+            <tr>
+                <th class="text-center">No</th>
+                <th>Kode Penjualan</th>
+                <th>Nama Barang</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($detailPenjualan as $detail)
                 <tr>
-                    <th class="text-center">No</th>
-                    <th>Kode Kategori</th>
-                    <th>Nama Kategori</th>
-                
+                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td>{{ $detail->penjualan_kode }}</td>
+                    <td>{{ $detail->barang->barang_nama }}</td>
+                    <td class="text-right">{{ number_format($detail->harga, 0, ',', '.') }}</td>
+                    <td class="text-center">{{ $detail->jumlah }}</td>
+                    <td class="text-right">{{ number_format($detail->harga * $detail->jumlah, 0, ',', '.') }}</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($kategori as $b)
-                    <tr>
-                        <td class="text-center">{{ $loop->iteration }}</td>
-                        <td>{{ $b->kategori_kode }}</td>
-                        <td>{{ $b->kategori_nama }}</td>
-                    
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+            @endforeach
+        </tbody>
+    </table>
 </body>
 
 </html>

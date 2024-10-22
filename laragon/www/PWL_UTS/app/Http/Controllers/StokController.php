@@ -404,19 +404,21 @@ class StokController extends Controller
         exit;
     }
 
-        public function export_pdf(){
-            //ambil data yang akan di export
-            $stok = StokModel::select('supplier_id', 'barang_id', 'stok_tanggal', 'stok_jumlah')
-            ->orderBy('supplier_id')
-            ->with('supplier')
-            ->get();
-   
-            //use Barruvdh\DomPDF\Facade\\Pdf
-           $pdf = Pdf::loadView('stok.export_pdf', ['stok' =>$stok]);
-           $pdf->setPaper('a4', 'potrait');
-           $pdf->setOption("isRemoteEnabled", true);
-           $pdf->render();
-   
-           return $pdf->download('Data Stok Barang '.date('Y-m-d H:i:s').'.pdf');
-    }
+    public function export_pdf() {
+        set_time_limit(600);
+        $stok = StokModel::select('supplier_id', 'stok_tanggal', 'stok_jumlah', 'user_id', 'barang_id')
+                                                                                                ->orderBy('supplier_id')
+                                                                                                ->orderBy('stok_tanggal')
+                                                                                                ->with('supplier')
+                                                                                                ->get();
+    
+        // use Barryvdh\DomPDF\Facade\Pdf;
+        $pdf = Pdf::loadView('stok.export_pdf', ['stok' => $stok]);
+    
+        $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+        $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari uri
+        $pdf->render();
+    
+        return $pdf->stream('Data stok '.date('Y-m-d H:i:s').'.pdf');
+    }    
 }
