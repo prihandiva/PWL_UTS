@@ -9,6 +9,11 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LandingPageController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StokController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +38,8 @@ use App\Http\Controllers\AuthController;
 // Route::get('/user/hapus/{id}',[UserController::class,'hapus']);
 // Route::get('/',[WelcomeController::class,'index']);
 
+Route::get('/landing', [LandingPageController::class, 'index'])->name('landing');
+
 Route::pattern('id', '[0-9]+');
 
 Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -45,6 +52,7 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::middleware(['auth'])->group(function() {
     Route::get('/', [WelcomeController::class, 'index']);
 
+    Route::get('/profile',[ProfileController::class,'index']);
     Route::middleware(['authorize:ADM,MNG'])->group(function(){
         Route::group(['prefix' => 'level'], function () {
             Route::get('/', [LevelController::class, 'index']);
@@ -85,6 +93,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('/import_ajax', [UserController::class, 'import_ajax']);
         Route::get('/export_excel', [UserController::class, 'export_excel']);
         Route::get('/export_pdf', [UserController::class, 'export_pdf']);
+        Route::get('/update',[UserController::class,'update_profile']);
     });
     
     
@@ -147,9 +156,42 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/export_excel', [BarangController::class, 'export_excel']);
         Route::get('/export_pdf', [BarangController::class, 'export_pdf']);
     });
-    
-});
+    Route::group(['prefix' => 'profile'], function () {
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
 
+    });
+});
+Route::group(['prefix' => 'stok'], function () {
+        Route::get('/', [StokController::class, 'index']);
+        Route::post('/list', [StokController::class, 'list']);
+        Route::get('/create', [StokController::class, 'create']);
+        Route::post('/', [StokController::class, 'store']);
+        Route::get('/create_ajax', [StokController::class, 'create_ajax']);
+        Route::post('/ajax', [StokController::class, 'store_ajax']);
+        Route::get('/{id}', [StokController::class, 'show']);
+        Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
+        Route::get('/{id}/edit', [StokController::class, 'edit']);
+        Route::put('/{id}', [StokController::class, 'update']);
+        Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); // Menampilkan halaman form edit Stok Ajax
+        Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']); // Menyimpan perubahan data Stok Ajax
+        Route::post('/{id}', [StokController::class, 'destroy']);
+        Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']); // Untuk menampilkan form confirm delete Stok Ajax
+        Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']); // Untuk menghapus data Stok Ajax
+        Route::get('/import', [StokController::class, 'import']); 
+        Route::post('/import_ajax', [StokController::class, 'import_ajax']);
+        Route::get('/export_excel', [BarangController::class, 'export_excel']);
+        Route::get('/export_pdf', [BarangController::class, 'export_pdf']);
+    });
+//logout
+use Illuminate\Support\Facades\Auth;
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/login');
+})->name('logout');
 
 
 
