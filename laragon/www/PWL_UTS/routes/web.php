@@ -54,6 +54,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/', [WelcomeController::class, 'index']);
 
     Route::get('/profile',[ProfileController::class,'index']);
+    
     Route::middleware(['authorize:ADM,MNG'])->group(function(){
         Route::group(['prefix' => 'level'], function () {
             Route::get('/', [LevelController::class, 'index']);

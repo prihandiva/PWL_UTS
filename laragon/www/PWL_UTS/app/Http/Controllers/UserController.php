@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Yajra\DataTables\Facades\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -162,45 +162,31 @@ class UserController extends Controller
     }
 
     // Menyimpan perubahan data user
-    public function update(Request $request, $user_id)
-{
-    $user = UserModel::find($user_id);
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            // username harus diisi, berupa string, minimal 3 karakter,
+            // dan bernilai unik di tabel m_user kolom username kecuali untuk user dengan id yang sedang diedit
+            'username' => 'required|string|min:3|unique:m_user,username,' . $id . ',user_id',
 
-    // Validasi form
-    $request->validate([
-        'username' => 'required|string|max:255',
-        'nama' => 'required|string|max:255',
-        'password' => 'nullable|string|min:8', // Password optional
-        'level_id' => 'required|integer',
-        'user_foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto
-    ]);
+            'nama' => 'required|string|max:100', // nama harus diisi, berupa string, dan maksimal 100 karakter
 
-    // Update data user
-    $user->username = $request->username;
-    $user->nama = $request->nama;
-    if ($request->password) {
-        $user->password = bcrypt($request->password); // Hash password baru
+            'password' => 'nullable|min:5', // password bisa diisi (minimal 5 karakter) dan bisa tidak diisi
+
+            'level_id' => 'required|integer', // level_id harus diisi dan berupa angka
+            'user_foto' => 'nullable|text'
+        ]);
+
+        UserModel::find($id)->update([
+            'username' => $request->username,
+            'nama' => $request->nama,
+            'password' => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
+            'level_id' => $request->level_id,
+            'user_foto' => $request->user_foto
+        ]);
+
+        return redirect('/user')->with('success', 'Data user berhasil diubah');
     }
-    $user->level_id = $request->level_id;
-
-    // Handle upload foto
-    if ($request->hasFile('user_foto')) {
-        // Hapus foto lama jika ada
-        if ($user->user_foto && Storage::exists('public/' . $user->user_foto)) {
-            Storage::delete('public/' . $user->user_foto);
-        }
-
-        // Simpan foto baru
-        $path = $request->file('user_foto')->store('user_fotos', 'public');
-        $user->user_foto = $path;
-    }
-
-    // Simpan perubahan
-    $user->save();
-
-    return redirect('/user')->with('success', 'Data user berhasil diubah!');
-}
-
 
     // Menghapus data user
     public function destroy(string $id)
@@ -271,7 +257,6 @@ class UserController extends Controller
     {
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
-
             $rules = [
                 'level_id' => 'required|integer',
                 'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
@@ -293,22 +278,18 @@ class UserController extends Controller
                 if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
                     $request->request->remove('password');
                 }
-                if ($request->hasFile('user_foto')) {
+                if ($request->has('user_foto')) {
                     $file = $request->file('user_foto');
                     $extension = $file->getClientOriginalExtension();
 
                     $filename = time() . '.' . $extension;
 
-                    $path = public_path('images/profile/');
+                    $path = 'images/profile/';
                     $file->move($path, $filename);
-                    $check->user_foto = $path . $filename;
                 }
                 // $fileName = time() . $request->file('user_foto')->getClientOriginalExtension();
-                
-                // $path = $request->file(key: 'user_foto')->storeAs('image/', $fileName);
+                // $path = $request->file('user_foto')->storeAs('images', $fileName);
                 // $request['user_foto'] = '/storage/' . $path;
-
-                // $pathFile = ;
 
                 if (!$request->filled('user_foto')) { // jika password tidak diisi, maka hapus dari request 
                     $request->request->remove('user_foto');
@@ -318,8 +299,8 @@ class UserController extends Controller
                     'username'  => $request->username,
                     'nama'      => $request->nama,
                     'password'  => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
-                    'level_id'  => $request->level_id
-                    // 'user_foto' => $path . $filename
+                    'level_id'  => $request->level_id,
+                    'user_foto'      => $path.$filename
                 ]);
                 return response()->json([
                     'status' => true,
