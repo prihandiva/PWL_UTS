@@ -1,10 +1,9 @@
--- SQLBook: Code
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 16, 2024 at 05:04 AM
+-- Generation Time: Oct 23, 2024 at 08:55 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pwl_pos`
+-- Database: `pwl_uts`
 --
 
 -- --------------------------------------------------------
@@ -60,13 +59,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2024_09_10_101724_create_m_level_table', 1),
-(6, '2024_09_10_103052_create_m_kategori_table', 2),
-(7, '2024_09_10_103108_create_m_supplier_table', 2),
-(8, '2024_09_10_105243_create_m_user_table', 3),
-(9, '2024_09_10_120810_create_m_barang_table', 4),
-(10, '2024_09_10_120836_create_t_penjualan_table', 4),
-(11, '2024_09_10_120907_create_t_stok_table', 4),
-(12, '2024_09_10_120921_create_t_penjualan_detail_table', 4);
+(6, '2024_09_10_103052_create_m_kategori_table', 1),
+(7, '2024_09_10_103108_create_m_supplier_table', 1),
+(8, '2024_09_10_105243_create_m_user_table', 1),
+(9, '2024_09_10_120810_create_m_barang_table', 1),
+(10, '2024_09_10_120836_create_t_penjualan_table', 1),
+(11, '2024_09_10_120907_create_t_stok_table', 1),
+(12, '2024_09_10_120921_create_t_penjualan_detail_table', 1);
 
 -- --------------------------------------------------------
 
@@ -90,21 +89,31 @@ CREATE TABLE `m_barang` (
 --
 
 INSERT INTO `m_barang` (`barang_id`, `kategori_id`, `barang_kode`, `barang_nama`, `harga_beli`, `harga_jual`, `created_at`, `updated_at`) VALUES
-(101, 1, 'ELK001', 'Laptop Acer Aspire', 7000000, 8500000, NULL, NULL),
-(102, 1, 'ELK002', 'Smart TV Samsung', 4000000, 5000000, NULL, NULL),
-(103, 1, 'ELK003', 'Smartphone Xiaomi', 3000000, 3800000, NULL, NULL),
-(104, 1, 'ELK004', 'Headphone Sony', 800000, 1000000, NULL, NULL),
-(105, 1, 'ELK005', 'Kamera Canon EOS', 6000000, 7500000, NULL, NULL),
-(201, 2, 'PAK001', 'Kemeja Batik Pria', 150000, 200000, NULL, NULL),
-(202, 2, 'PAK002', 'Jaket Kulit Wanita', 500000, 650000, NULL, NULL),
-(203, 2, 'PAK003', 'Kaos Polos Katun', 80000, 120000, NULL, NULL),
-(204, 2, 'PAK004', 'Celana Jeans Pria', 180000, 250000, NULL, NULL),
-(205, 2, 'PAK005', 'Rok Mini Denim', 120000, 170000, NULL, NULL),
-(301, 3, 'MNM001', 'Beras Premium 10kg', 90000, 120000, NULL, NULL),
-(302, 3, 'MNM002', 'Minyak Goreng 2L', 25000, 35000, NULL, NULL),
-(303, 3, 'MNM003', 'Gula Pasir 1kg', 12000, 18000, NULL, NULL),
-(304, 3, 'MNM004', 'Tepung Terigu 1kg', 8000, 12000, NULL, NULL),
-(305, 3, 'MNM005', 'Susu Bubuk 500g', 45000, 60000, NULL, NULL);
+(101, 1, 'MKN001', 'Nasi Goreng', 15000, 25000, NULL, NULL),
+(102, 1, 'MKN002', 'Rendang Sapi', 30000, 45000, NULL, NULL),
+(103, 1, 'MKN003', 'Sate Ayam', 20000, 30000, NULL, NULL),
+(104, 1, 'MKN004', 'Gado-Gado', 10000, 20000, NULL, NULL),
+(105, 1, 'MKN005', 'Soto Ayam', 15000, 25000, NULL, NULL),
+(201, 2, 'MNM001', 'Es Teh Manis', 3000, 7000, NULL, NULL),
+(202, 2, 'MNM002', 'Es Jeruk', 5000, 10000, NULL, NULL),
+(203, 2, 'MNM003', 'Jus Alpukat', 8000, 15000, NULL, NULL),
+(204, 2, 'MNM004', 'Es Kopi Susu', 10000, 18000, NULL, NULL),
+(205, 2, 'MNM005', 'Wedang Jahe', 5000, 10000, NULL, NULL),
+(301, 3, 'DSR001', 'Es Cendol', 5000, 10000, NULL, NULL),
+(302, 3, 'DSR002', 'Pisang Goreng', 3000, 7000, NULL, NULL),
+(303, 3, 'DSR003', 'Kue Lupis', 4000, 8000, NULL, NULL),
+(304, 3, 'DSR004', 'Klepon', 3000, 7000, NULL, NULL),
+(305, 3, 'DSR005', 'Bubur Ketan Hitam', 4000, 9000, NULL, NULL),
+(401, 4, 'APP001', 'Singkong Goreng', 3000, 6000, NULL, NULL),
+(402, 4, 'APP002', 'Tahu Isi', 2000, 5000, NULL, NULL),
+(403, 4, 'APP003', 'Tempe Mendoan', 2000, 5000, NULL, NULL),
+(404, 4, 'APP004', 'Perkedel Kentang', 3000, 7000, NULL, NULL),
+(405, 4, 'APP005', 'Martabak Mini', 5000, 10000, NULL, NULL),
+(501, 5, 'MSN001', 'Nasi Tumpeng', 50000, 75000, NULL, NULL),
+(502, 5, 'MSN002', 'Ikan Bakar Jimbaran', 40000, 60000, NULL, NULL),
+(503, 5, 'MSN003', 'Ayam Betutu', 35000, 50000, NULL, NULL),
+(504, 5, 'MSN004', 'Sop Buntut', 40000, 60000, NULL, NULL),
+(505, 5, 'MSN005', 'Rawon', 30000, 45000, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -125,11 +134,12 @@ CREATE TABLE `m_kategori` (
 --
 
 INSERT INTO `m_kategori` (`kategori_id`, `kategori_kode`, `kategori_nama`, `created_at`, `updated_at`) VALUES
-(1, 'ELK', 'Elektronik', NULL, NULL),
-(2, 'PAK', 'Pakaian', NULL, NULL),
-(3, 'MNM', 'Makanan/Minuman', NULL, NULL),
-(4, 'PRT', 'Peralatan Rumah Tangga', NULL, NULL),
-(5, 'KES', 'Kesehatan/Kecantikan', NULL, NULL);
+(1, 'MKN', 'Makanan', NULL, NULL),
+(2, 'MNM', 'Minuman', NULL, NULL),
+(3, 'DSR', 'Dessert', NULL, NULL),
+(4, 'APP', 'Appetizer', NULL, NULL),
+(5, 'MSN', 'Makanan Spesial', NULL, NULL),
+(6, 'COBA', 'COBA TAMBAH KATEGORI', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -150,7 +160,7 @@ CREATE TABLE `m_level` (
 --
 
 INSERT INTO `m_level` (`level_id`, `level_kode`, `level_nama`, `created_at`, `updated_at`) VALUES
-(1, 'ADM', 'Administrator', NULL, NULL),
+(1, 'ADM', 'Administrator', NULL, '2024-10-22 13:19:09'),
 (2, 'MNG', 'Manager', NULL, NULL),
 (3, 'STF', 'Staff/Kasir', NULL, NULL);
 
@@ -163,7 +173,7 @@ INSERT INTO `m_level` (`level_id`, `level_kode`, `level_nama`, `created_at`, `up
 CREATE TABLE `m_supplier` (
   `supplier_id` bigint UNSIGNED NOT NULL,
   `supplier_kode` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `supplier_nama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_nama` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `supplier_alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -174,9 +184,11 @@ CREATE TABLE `m_supplier` (
 --
 
 INSERT INTO `m_supplier` (`supplier_id`, `supplier_kode`, `supplier_nama`, `supplier_alamat`, `created_at`, `updated_at`) VALUES
-(1, 'SUP001', 'PT. Elektronik Jaya', 'Jl. Sudirman No. 123, Jakarta', NULL, NULL),
-(2, 'SUP002', 'CV. Pakaian Nusantara', 'Jl. Merdeka No. 45, Bandung', NULL, NULL),
-(3, 'SUP003', 'UD. Sembako Makmur', 'Jl. Diponegoro No. 78, Surabaya', NULL, NULL);
+(1, 'SUP001', 'PT. Sumber Pangan Nusantara', 'Jl. Sudirman No. 123, Jakarta', NULL, NULL),
+(2, 'SUP002', 'CV. Minuman Segar Sejahtera', 'Jl. Merdeka No. 45, Bandung', NULL, NULL),
+(3, 'SUP003', 'UD. Rasa Manis Cendana', 'Jl. Diponegoro No. 78, Surabaya', NULL, NULL),
+(4, 'SUP004', 'PT. Hidangan Nusantara Lestari', 'Jl. Gajah Mada No. 32, Yogyakarta', NULL, NULL),
+(5, 'SUP005', 'CV. Speciality Foods Indonesia', 'Jl. Pahlawan No. 88, Semarang', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -190,6 +202,7 @@ CREATE TABLE `m_user` (
   `username` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nama` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_foto` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -198,18 +211,13 @@ CREATE TABLE `m_user` (
 -- Dumping data for table `m_user`
 --
 
-INSERT INTO `m_user` (`user_id`, `level_id`, `username`, `nama`, `password`, `created_at`, `updated_at`) VALUES
-(1, 1, 'admin', 'Administrator', '$2y$12$QNema7GONgcP612/DrWxcOmoSBHXF5O2K9VBPmmZpjiqExRuhogoa', NULL, NULL),
-(2, 2, 'manager', 'Manager', '$2y$12$5bj95FyCCBWTeKVZOlnmBeexP.jw7ri8cM29IwKnuStFxKCAyvf76', NULL, NULL),
-(3, 3, 'staff', 'Staff/Kasir', '$2y$12$1cH8ndwEpXoW8q8SafKPEerEQftXIWww1n6L8/JYmgyLLucSPGX9m', NULL, NULL),
-(4, 2, 'manager_dua', 'Manager 2', '$2y$12$EpYJPRcmAof0lv8qwG4pjubkGt6qUjjGrOCmMsyLfYqDflz1FmA.m', '2024-09-17 23:44:05', '2024-09-17 23:44:05'),
-(5, 2, 'manager22', 'Manager Dua Dua', '$2y$12$iFy3VJQO6y9vOmezN.di2eLNceCI/miQ.QYKfIOUhM9/I9kGKKbZG', '2024-09-19 03:32:46', '2024-09-19 03:32:46'),
-(6, 2, 'manager33', 'Manager Tuga Tiga', '$2y$12$slfZbcxSy63UVXDOMEKDuOpEkKRfLyre.T3.wSusCKJy6vnGVwYKK', '2024-09-19 03:48:02', '2024-09-19 03:48:02'),
-(7, 2, 'manager56', 'Manager55', '$2y$12$Ds2xW5bvUhY6IJHUf0VvmOhxUqyL/zrpO8qqXETRWc9wWlO9/wpum', '2024-09-20 04:18:46', '2024-09-20 04:18:46'),
-(8, 2, 'manager12', 'Manager11', '$2y$12$xwVMWd0/IjIVT9mVdpB/D.SH1rqEcdh1P4SQhKXGP373zWRpXx2vW', '2024-09-20 04:27:47', '2024-09-20 04:27:47'),
-(10, 2, 'fitria', 'ramadhani prihandiva', '$2y$12$ZTpGF4vKl9nPS9qIcqegZuTvDFM15D1AVDL6g.G/kUpZoXeqpI9Me', '2024-09-25 00:02:20', '2024-09-25 00:02:20'),
-(12, 3, 'swift', 'taylor swift', '$2y$12$nyIg0l8wjPkiZAIgSWATFejLrnKsdlYaEVsuyTREXGdDo2pgMGvT2', '2024-10-01 05:05:40', '2024-10-01 05:05:40'),
-(13, 2, 'dipi', 'diva', '$2y$12$3fK8924XHRXahggqMKZ7T.Xub5Kqhrz/XODFvBEf5uVuJ/tnAnr6O', '2024-10-15 10:41:11', '2024-10-15 10:41:11');
+INSERT INTO `m_user` (`user_id`, `level_id`, `username`, `nama`, `password`, `user_foto`, `created_at`, `updated_at`) VALUES
+(1, 1, 'admin', 'Administrator', '$2y$12$k3Vmxxuaa3Cb8WaHKniriuYa2MBMcYREypvugWX0KufM1O6lbDVM6', NULL, NULL, NULL),
+(2, 2, 'manager', 'Manager', '$2y$12$iViLtRwUuVaNXPfDcGCaY.NxAvJUYMDZ1G2mFAEqEjmdf4Jf76tNe', NULL, NULL, NULL),
+(3, 3, 'staff', 'Staff/Kasir', '$2y$12$PElSWweRTLm.Jq2OCi8uruwofR0yBc5/KRx1Jg3uCNvtXhDY6WCOC', NULL, NULL, NULL),
+(4, 1, 'divaadmin', 'diva as admin', '$2y$12$Thcm1jDa9RJ.qKX4BKy7F.dyXSrRr7q0.O0X9EWK/uHuvSbpg0peO', NULL, '2024-10-22 08:22:19', '2024-10-22 08:22:19'),
+(5, 2, 'divamanager', 'diva as manager', '$2y$12$jm04ir/IOs9ZLh4tYYYnM.gPUecK.MS7JACDM1F6JJkBIr/dmMF9.', NULL, '2024-10-22 13:32:24', '2024-10-22 13:32:24'),
+(6, 3, 'divastaf', 'diva as staff/kasir', '$2y$12$H0Qpt.XLxrO./pJj2UW8W.LY3bJYUMnODlI0sP0o6Wsn0bsev/RdW', 'profile_4.png', '2024-10-22 14:27:38', '2024-10-23 01:10:03');
 
 -- --------------------------------------------------------
 
@@ -263,16 +271,16 @@ CREATE TABLE `t_penjualan` (
 --
 
 INSERT INTO `t_penjualan` (`penjualan_id`, `user_id`, `pembeli`, `penjualan_kode`, `penjualan_tanggal`, `created_at`, `updated_at`) VALUES
-(1, 3, 'Andi', 'TRX001', '2024-09-11 07:24:01', NULL, NULL),
-(2, 3, 'Budi', 'TRX002', '2024-09-11 07:24:01', NULL, NULL),
-(3, 3, 'Citra', 'TRX003', '2024-09-11 07:24:01', NULL, NULL),
-(4, 3, 'Dewi', 'TRX004', '2024-09-11 07:24:01', NULL, NULL),
-(5, 3, 'Eka', 'TRX005', '2024-09-11 07:24:01', NULL, NULL),
-(6, 3, 'Fajar', 'TRX006', '2024-09-11 07:24:01', NULL, NULL),
-(7, 3, 'Gita', 'TRX007', '2024-09-11 07:24:01', NULL, NULL),
-(8, 3, 'Hadi', 'TRX008', '2024-09-11 07:24:01', NULL, NULL),
-(9, 3, 'Indra', 'TRX009', '2024-09-11 07:24:01', NULL, NULL),
-(10, 3, 'Joko', 'TRX010', '2024-09-11 07:24:01', NULL, NULL);
+(1, 3, 'Andi', 'TRX001', '2024-10-22 13:31:08', NULL, NULL),
+(2, 3, 'Budi', 'TRX002', '2024-10-22 13:31:08', NULL, NULL),
+(3, 3, 'Citra', 'TRX003', '2024-10-22 13:31:08', NULL, NULL),
+(4, 3, 'Dewi', 'TRX004', '2024-10-22 13:31:08', NULL, NULL),
+(5, 3, 'Eka', 'TRX005', '2024-10-22 13:31:08', NULL, NULL),
+(6, 3, 'Fajar', 'TRX006', '2024-10-22 13:31:08', NULL, NULL),
+(7, 3, 'Gita', 'TRX007', '2024-10-22 13:31:08', NULL, NULL),
+(8, 3, 'Hadi', 'TRX008', '2024-10-22 13:31:08', NULL, NULL),
+(9, 3, 'Indra', 'TRX009', '2024-10-22 13:31:08', NULL, NULL),
+(10, 3, 'Joko', 'TRX010', '2024-10-22 13:31:08', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -295,36 +303,36 @@ CREATE TABLE `t_penjualan_detail` (
 --
 
 INSERT INTO `t_penjualan_detail` (`detail_id`, `penjualan_id`, `barang_id`, `harga`, `jumlah`, `created_at`, `updated_at`) VALUES
-(1, 1, 101, 8500000, 1, NULL, NULL),
-(2, 1, 102, 5000000, 2, NULL, NULL),
-(3, 1, 103, 3800000, 1, NULL, NULL),
-(4, 2, 104, 1000000, 3, NULL, NULL),
-(5, 2, 105, 7500000, 1, NULL, NULL),
-(6, 2, 201, 200000, 5, NULL, NULL),
-(7, 3, 202, 650000, 2, NULL, NULL),
-(8, 3, 203, 120000, 4, NULL, NULL),
-(9, 3, 204, 250000, 3, NULL, NULL),
-(10, 4, 205, 170000, 6, NULL, NULL),
-(11, 4, 301, 120000, 2, NULL, NULL),
-(12, 4, 302, 35000, 10, NULL, NULL),
-(13, 5, 303, 18000, 15, NULL, NULL),
+(1, 1, 101, 20000, 1, NULL, NULL),
+(2, 1, 102, 15000, 2, NULL, NULL),
+(3, 1, 103, 25000, 1, NULL, NULL),
+(4, 2, 104, 18000, 3, NULL, NULL),
+(5, 2, 105, 10000, 1, NULL, NULL),
+(6, 2, 201, 12000, 5, NULL, NULL),
+(7, 3, 202, 20000, 2, NULL, NULL),
+(8, 3, 203, 25000, 4, NULL, NULL),
+(9, 3, 204, 15000, 3, NULL, NULL),
+(10, 4, 205, 10000, 6, NULL, NULL),
+(11, 4, 301, 25000, 2, NULL, NULL),
+(12, 4, 302, 15000, 10, NULL, NULL),
+(13, 5, 303, 30000, 15, NULL, NULL),
 (14, 5, 304, 12000, 12, NULL, NULL),
-(15, 5, 305, 60000, 8, NULL, NULL),
-(16, 6, 101, 8500000, 1, NULL, NULL),
-(17, 6, 201, 200000, 2, NULL, NULL),
-(18, 6, 302, 35000, 5, NULL, NULL),
-(19, 7, 103, 3800000, 2, NULL, NULL),
-(20, 7, 202, 650000, 3, NULL, NULL),
-(21, 7, 204, 250000, 4, NULL, NULL),
-(22, 8, 105, 7500000, 1, NULL, NULL),
-(23, 8, 301, 120000, 8, NULL, NULL),
-(24, 8, 303, 18000, 20, NULL, NULL),
-(25, 9, 201, 200000, 3, NULL, NULL),
-(26, 9, 302, 35000, 10, NULL, NULL),
-(27, 9, 305, 60000, 6, NULL, NULL),
-(28, 10, 101, 8500000, 1, NULL, NULL),
-(29, 10, 104, 1000000, 4, NULL, NULL),
-(30, 10, 204, 250000, 5, NULL, NULL);
+(15, 5, 305, 18000, 8, NULL, NULL),
+(16, 6, 101, 20000, 1, NULL, NULL),
+(17, 6, 201, 12000, 2, NULL, NULL),
+(18, 6, 302, 15000, 5, NULL, NULL),
+(19, 7, 103, 25000, 2, NULL, NULL),
+(20, 7, 202, 20000, 3, NULL, NULL),
+(21, 7, 204, 15000, 4, NULL, NULL),
+(22, 8, 105, 10000, 1, NULL, NULL),
+(23, 8, 301, 25000, 8, NULL, NULL),
+(24, 8, 303, 30000, 20, NULL, NULL),
+(25, 9, 201, 12000, 3, NULL, NULL),
+(26, 9, 302, 15000, 10, NULL, NULL),
+(27, 9, 305, 18000, 6, NULL, NULL),
+(28, 10, 101, 20000, 1, NULL, NULL),
+(29, 10, 104, 18000, 4, NULL, NULL),
+(30, 10, 204, 15000, 5, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -348,21 +356,31 @@ CREATE TABLE `t_stok` (
 --
 
 INSERT INTO `t_stok` (`stok_id`, `supplier_id`, `barang_id`, `user_id`, `stok_tanggal`, `stok_jumlah`, `created_at`, `updated_at`) VALUES
-(1, 1, 101, 3, '2024-09-11 07:23:54', 50, NULL, NULL),
-(2, 1, 102, 3, '2024-09-11 07:23:54', 30, NULL, NULL),
-(3, 1, 103, 3, '2024-09-11 07:23:54', 100, NULL, NULL),
-(4, 1, 104, 3, '2024-09-11 07:23:54', 150, NULL, NULL),
-(5, 1, 105, 3, '2024-09-11 07:23:54', 20, NULL, NULL),
-(6, 2, 201, 3, '2024-09-11 07:23:54', 200, NULL, NULL),
-(7, 2, 202, 3, '2024-09-11 07:23:54', 75, NULL, NULL),
-(8, 2, 203, 3, '2024-09-11 07:23:54', 300, NULL, NULL),
-(9, 2, 204, 3, '2024-09-11 07:23:54', 120, NULL, NULL),
-(10, 2, 205, 3, '2024-09-11 07:23:54', 180, NULL, NULL),
-(11, 3, 301, 3, '2024-09-11 07:23:54', 500, NULL, NULL),
-(12, 3, 302, 3, '2024-09-11 07:23:54', 400, NULL, NULL),
-(13, 3, 303, 3, '2024-09-11 07:23:54', 600, NULL, NULL),
-(14, 3, 304, 3, '2024-09-11 07:23:54', 700, NULL, NULL),
-(15, 3, 305, 3, '2024-09-11 07:23:54', 350, NULL, NULL);
+(1, 1, 101, 3, '2024-10-22 13:31:03', 150, NULL, NULL),
+(2, 1, 102, 3, '2024-10-22 13:31:03', 100, NULL, NULL),
+(3, 1, 103, 3, '2024-10-22 13:31:03', 200, NULL, NULL),
+(4, 1, 104, 3, '2024-10-22 13:31:03', 50, NULL, NULL),
+(5, 1, 105, 3, '2024-10-22 13:31:03', 75, NULL, NULL),
+(6, 2, 201, 3, '2024-10-22 13:31:03', 250, NULL, NULL),
+(7, 2, 202, 3, '2024-10-22 13:31:03', 180, NULL, NULL),
+(8, 2, 203, 3, '2024-10-22 13:31:03', 300, NULL, NULL),
+(9, 2, 204, 3, '2024-10-22 13:31:03', 150, NULL, NULL),
+(10, 2, 205, 3, '2024-10-22 13:31:03', 200, NULL, NULL),
+(11, 3, 301, 3, '2024-10-22 13:31:03', 300, NULL, NULL),
+(12, 3, 302, 3, '2024-10-22 13:31:03', 250, NULL, NULL),
+(13, 3, 303, 3, '2024-10-22 13:31:03', 100, NULL, NULL),
+(14, 3, 304, 3, '2024-10-22 13:31:03', 50, NULL, NULL),
+(15, 3, 305, 3, '2024-10-22 13:31:03', 400, NULL, NULL),
+(16, 4, 401, 3, '2024-10-22 13:31:03', 150, NULL, NULL),
+(17, 4, 402, 3, '2024-10-22 13:31:03', 100, NULL, NULL),
+(18, 4, 403, 3, '2024-10-22 13:31:03', 50, NULL, NULL),
+(19, 4, 404, 3, '2024-10-22 13:31:03', 80, NULL, NULL),
+(20, 4, 405, 3, '2024-10-22 13:31:03', 120, NULL, NULL),
+(21, 5, 501, 3, '2024-10-22 13:31:03', 200, NULL, NULL),
+(22, 5, 502, 3, '2024-10-22 13:31:03', 300, NULL, NULL),
+(23, 5, 503, 3, '2024-10-22 13:31:03', 150, NULL, NULL),
+(24, 5, 504, 3, '2024-10-22 13:31:03', 100, NULL, NULL),
+(25, 5, 505, 3, '2024-10-22 13:31:03', 80, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -501,7 +519,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `m_barang`
 --
 ALTER TABLE `m_barang`
-  MODIFY `barang_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=306;
+  MODIFY `barang_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=506;
 
 --
 -- AUTO_INCREMENT for table `m_kategori`
@@ -513,19 +531,19 @@ ALTER TABLE `m_kategori`
 -- AUTO_INCREMENT for table `m_level`
 --
 ALTER TABLE `m_level`
-  MODIFY `level_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `level_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `m_supplier`
 --
 ALTER TABLE `m_supplier`
-  MODIFY `supplier_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `supplier_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `m_user`
 --
 ALTER TABLE `m_user`
-  MODIFY `user_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `user_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -549,7 +567,7 @@ ALTER TABLE `t_penjualan_detail`
 -- AUTO_INCREMENT for table `t_stok`
 --
 ALTER TABLE `t_stok`
-  MODIFY `stok_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `stok_id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `users`
