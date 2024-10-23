@@ -27,7 +27,7 @@
             background-size: cover;
             background-position: center;
             background-blend-mode: overlay;
-            background-image: url('{{ asset('images/background.jpg') }}');
+            background-image: url('{{ asset('images/background.png') }}');
             
         }
 

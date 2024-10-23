@@ -239,8 +239,16 @@ Route::post('/logout', function () {
     request()->session()->invalidate();
     request()->session()->regenerateToken();
 
-    return redirect('/login');
+    return redirect('/landing');
 })->name('logout');
+
+Route::group(['prefix' => 'profile', 'middleware'=>'authorize:ADM,MNG,STF,CST'], function(){
+    Route::get('/', [ProfileController::class, 'index']);
+    Route::get('/{id}/edit_ajax', [ProfileController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [ProfileController::class, 'update_ajax']);
+    Route::get('/{id}/edit_foto', [ProfileController::class, 'edit_foto']);
+    Route::put('/{id}/update_foto', [ProfileController::class, 'update_foto']);
+});
 
 
 
