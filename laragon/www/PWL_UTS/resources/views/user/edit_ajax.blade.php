@@ -32,9 +32,9 @@
                     <div class="form-group">
                         <label>Ubah Foto Profil</label><br>
                         <!-- Foto profil yang akan diubah langsung -->
-                        <img id="current-user_foto" src="{{ asset('images/' . $user->user_foto) }}" class="img-user_foto mb-2" alt="Foto Profil Saat Ini" style="width: 100px; height: 100px; object-fit: cover;"><br>
+                        <img id="current-foto" src="{{ asset('images/profile' . $user->user_foto) }}" class="img-user_foto mb-2" alt="Foto Profil Saat Ini" style="width: 100px; height: 100px; object-fit: cover;"><br>
                         <input type="file" name="user_foto" id="user_foto"  value="{{ $user->user_foto }}" class="form-control" accept="image/*">
-                        <small id="error-user_foto" class="error-text form-text text-danger"></small>
+                        <small id="error-foto" class="error-text form-text text-danger"></small>
                     </div>
                     <div class="form-group">
                         <label>Level Pengguna</label>

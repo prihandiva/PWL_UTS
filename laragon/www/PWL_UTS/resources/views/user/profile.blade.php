@@ -37,7 +37,7 @@
                 <th>Foto Profil</th>
                 <td>
                     @if($user->user_foto)
-                        <img src="{{ asset('storage/' . $user->user_foto) }}" alt="Foto Profil" width="150px">
+                        <img src="{{ asset('images/profile/' . $user->user_foto) }}" alt="Foto Profil" width="150px">
                     @else
                         <p>Foto belum tersedia</p>
                     @endif
@@ -46,7 +46,7 @@
         </table>
         
         <!-- Tautan Edit Profil -->
-        <a href="{{ url('/user/ubah/' . $user->user_id) }}" class="btn btn-warning">Ubah Profil</a>
+        <a href="{{ url('/user' . $user->user_id) }}" class="btn btn-warning mt-1">Kembali</a>
     </div>
 </div>
 @endsection
